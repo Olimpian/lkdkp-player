@@ -13,7 +13,7 @@
 
         <!-- Host name/address and port number which Fluentd placed -->
         <!--<remoteHost>192.168.112.31</remoteHost>-->
-        <!--<remoteHost>10.6.79.41</remoteHost>-->
+        <!--<remoteHost>10.6.79.43</remoteHost>-->
         <remoteHost>fluentdhost</remoteHost>
         <port>24224</port>
         <!-- [Optional] Additional fields(Pairs of key: value) -->
