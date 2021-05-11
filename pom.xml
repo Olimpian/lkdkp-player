@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>biz.eurosib</groupId>
+	<artifactId>lk-dkp</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>lk-dkp</name>
+	<description>Kafka-Player</description>
+	<properties>
+		<java.version>11</java.version>
+		<fluency.version>2.5.1</fluency.version>
+		<fluentd.logger.version>0.3.3</fluentd.logger.version>
+
+		<!--wsdl :: default is DataCore-->
+		<pom.wsdl.generatePackage>biz.eurosib.lkdkp.client.wsdl.datacore</pom.wsdl.generatePackage>
+		<pom.wsdl.profile>data-core</pom.wsdl.profile>
+		<wsdl.schema.url>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response?wsdl</wsdl.schema.url>
+		<pom.wsdl.defaultUri>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response</pom.wsdl.defaultUri>
+		<pom.wsdl.soapAction>http://www.Eurosib.biz/DataCoreWS#DataCoreWS_response:response</pom.wsdl.soapAction>
+	</properties>
+
+	<profiles>
+		<!--if you want java 11-->
+		<profile>
+			<id>add-java11</id>
+			<activation>
+				<jdk>[11,)</jdk>
+			</activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>jaxb-runtime</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!--wsdl from DataCore-->
+		<profile>
+			<id>data-core</id>
+			<properties>
+				<pom.wsdl.profile>data-core</pom.wsdl.profile>
+				<pom.wsdl.generatePackage>biz.eurosib.lkdkp.client.wsdl.datacore</pom.wsdl.generatePackage>
+				<wsdl.schema.url>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response?wsdl</wsdl.schema.url>
+				<pom.wsdl.defaultUri>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response</pom.wsdl.defaultUri>
+				<pom.wsdl.soapAction>http://www.Eurosib.biz/DataCoreWS#DataCoreWS_response:response</pom.wsdl.soapAction>
+			</properties>
+		</profile>
+
+		<!--wsdl from Peter's plug-->
+		<profile>
+			<id>plug</id>
+			<properties>
+				<pom.wsdl.profile>plug</pom.wsdl.profile>
+				<pom.wsdl.generatePackage>biz.eurosib.lkdkp.client.wsdl.plug</pom.wsdl.generatePackage>
+				<wsdl.schema.url>http://atg-ca.selfip.biz/samples2/Service1.svc?wsdl</wsdl.schema.url>
+				<pom.wsdl.defaultUri>http://atg-ca.selfip.biz/samples2/Service1.svc</pom.wsdl.defaultUri>
+				<pom.wsdl.soapAction>http://tempuri.org/IService1/response</pom.wsdl.soapAction>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-streams</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>2.6.3</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-log4j2</artifactId>-->
+			<!--<version>2.1.1.RELEASE</version>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20200518</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.fluentd</groupId>
+			<artifactId>fluent-logger</artifactId>
+			<version>${fluentd.logger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.komamitsu</groupId>
+			<artifactId>fluency-core</artifactId>
+			<version>${fluency.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.komamitsu</groupId>
+			<artifactId>fluency-fluentd</artifactId>
+			<version>${fluency.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sndyuk</groupId>
+			<artifactId>logback-more-appenders</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+
+
+		<!--wsdl-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+			<!--why throw tomcat?-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!--mssql-->
+		<!--<dependency>-->
+			<!--<groupId>com.microsoft.sqlserver</groupId>-->
+			<!--<artifactId>mssql-jdbc</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+		<!--</dependency>-->
+
+
+		<!--keycloak-->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>6.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>3.6.1.SP5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<version>3.6.1.SP5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-core</artifactId>
+			<version>6.0.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<!--why?-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!--wsdl-->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.14.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaLanguage>WSDL</schemaLanguage>
+					<generatePackage>${pom.wsdl.generatePackage}</generatePackage>
+					<schemas>
+						<schema>
+							<!--<url>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response?wsdl</url>-->
+							<!--<url>http://atg-ca.selfip.biz/samples2/Service1.svc?wsdl</url>-->
+							<url>${wsdl.schema.url}</url>
+						</schema>
+					</schemas>
+				</configuration>
+			</plugin>
+
+			<!--generated-sources like code-sources-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/target/generated-sources</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
