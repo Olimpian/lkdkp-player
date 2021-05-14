@@ -1,4 +1,4 @@
-package biz.eurosib.lkdkp.config;
+package biz.eurosib.lkdkp.kafka;
 
 import biz.eurosib.lkdkp.kafka.RequestDto;
 import biz.eurosib.lkdkp.kafka.ResponseDto;

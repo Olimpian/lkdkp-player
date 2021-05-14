@@ -1,6 +1,6 @@
 package biz.eurosib.lkdkp.service;
 
-import biz.eurosib.lkdkp.config.KeyCloakConfig;
+import biz.eurosib.lkdkp.keycloak.KeyCloakConfig;
 import biz.eurosib.lkdkp.keycloak.UserDto;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Keycloak;

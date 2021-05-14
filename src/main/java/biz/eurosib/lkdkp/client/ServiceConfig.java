@@ -24,16 +24,6 @@ public class ServiceConfig {
         return marshaller;
     }
 
-//    @Bean
-//    public ServiceClient countryClient(Jaxb2Marshaller marshaller) {
-//        ServiceClient client = new ServiceClient();
-//
-//        client.setDefaultUri(defaultUri);
-//        client.setMarshaller(marshaller);
-//        client.setUnmarshaller(marshaller);
-//        return client;
-//    }
-
     @Bean
     @ConditionalOnProperty(name = "wsdl.profile", havingValue = "plug")
     public WfcClient getPlugClient(Jaxb2Marshaller marshaller) {

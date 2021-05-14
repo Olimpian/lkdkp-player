@@ -1,4 +1,4 @@
-package biz.eurosib.lkdkp.config;
+package biz.eurosib.lkdkp.keycloak;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

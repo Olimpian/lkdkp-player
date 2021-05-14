@@ -3,14 +3,12 @@ package biz.eurosib.lkdkp.service;
 import biz.eurosib.lkdkp.cachedb.CacheAnswer;
 import biz.eurosib.lkdkp.cachedb.CacheAnswerRepository;
 import biz.eurosib.lkdkp.client.WfcClient;
-import biz.eurosib.lkdkp.config.KafkaConsumerConfig;
+import biz.eurosib.lkdkp.kafka.KafkaConsumerConfig;
 import biz.eurosib.lkdkp.kafka.*;
 import biz.eurosib.lkdkp.keycloak.UserDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import biz.eurosib.lkdkp.logger.FluentdLogger;
 import com.google.gson.Gson;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -24,26 +22,26 @@ import java.util.List;
 @Service
 public class Player {
     private final KafkaTemplate<Long, ResponseDto> kafkaTemplate;
-    private final ObjectMapper objectMapper;
     private final WfcClient wfcClient;
     private final CacheAnswerRepository repository;
     private final UserManager userManager;
     private final KafkaConsumerConfig config;
+    private final FluentdLogger log;
 
-    private final Logger log = LoggerFactory.getLogger(Player.class);
 
     @Autowired
     public Player(KafkaTemplate<Long, ResponseDto> kafkaTemplate,
-                  ObjectMapper objectMapper, WfcClient wfcClient,
+                  WfcClient wfcClient,
                   CacheAnswerRepository repository,
                   UserManager userManager,
-                  KafkaConsumerConfig config) {
+                  KafkaConsumerConfig config,
+                  FluentdLogger log) {
         this.kafkaTemplate = kafkaTemplate;
-        this.objectMapper = objectMapper;
         this.wfcClient = wfcClient;
         this.repository = repository;
         this.userManager = userManager;
         this.config = config;
+        this.log = log;
 
 
         log.info("Player started");

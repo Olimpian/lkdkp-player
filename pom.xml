@@ -25,7 +25,7 @@
 		<pom.wsdl.defaultUri>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response</pom.wsdl.defaultUri>
 		<pom.wsdl.soapAction>http://www.Eurosib.biz/DataCoreWS#DataCoreWS_response:response</pom.wsdl.soapAction>
 
-		<!--ip&port :: default sandbox-->
+		<!--urls :: default sandbox-->
 		<pom.app.server.port>8080</pom.app.server.port>
 		<pom.kafka.server.url>192.168.112.104</pom.kafka.server.url>
 		<pom.kafka.server.port>9092</pom.kafka.server.port>
@@ -40,11 +40,10 @@
 	<profiles>
 		<!--if you want java 11-->
 		<profile>
-			<id>add-java11</id>
+			<id>java11</id>
 			<activation>
 				<jdk>[11,)</jdk>
 			</activation>
-
 			<dependencies>
 				<dependency>
 					<groupId>org.glassfish.jaxb</groupId>
@@ -55,7 +54,7 @@
 
 		<!--wsdl from DataCore-->
 		<profile>
-			<id>data-core</id>
+			<id>wsdl-data-core</id>
 			<properties>
 				<pom.wsdl.profile>data-core</pom.wsdl.profile>
 				<pom.wsdl.generatePackage>biz.eurosib.lkdkp.client.wsdl.datacore</pom.wsdl.generatePackage>
@@ -64,10 +63,9 @@
 				<pom.wsdl.soapAction>http://www.Eurosib.biz/DataCoreWS#DataCoreWS_response:response</pom.wsdl.soapAction>
 			</properties>
 		</profile>
-
 		<!--wsdl from Peter's plug-->
 		<profile>
-			<id>plug</id>
+			<id>wsdl-plug</id>
 			<properties>
 				<pom.wsdl.profile>plug</pom.wsdl.profile>
 				<pom.wsdl.generatePackage>biz.eurosib.lkdkp.client.wsdl.plug</pom.wsdl.generatePackage>
@@ -77,9 +75,9 @@
 			</properties>
 		</profile>
 
-		<!--ip&port for sandbox-->
+		<!--urls for sandbox-->
 		<profile>
-			<id>sandbox</id>
+			<id>urls-sandbox</id>
 			<properties>
 				<pom.app.server.port>8080</pom.app.server.port>
 				<pom.kafka.server.url>192.168.112.104</pom.kafka.server.url>
@@ -92,9 +90,9 @@
 				<pom.synchman.uri>http://localhost:8082/cached?request=</pom.synchman.uri>
 			</properties>
 		</profile>
-		<!--ip&port for pre-prod-->
+		<!--urls for pre-prod-->
 		<profile>
-			<id>pre-prod</id>
+			<id>urls-pre-prod</id>
 			<properties>
 				<pom.app.server.port>22</pom.app.server.port>
 				<pom.kafka.server.url>10.6.79.41</pom.kafka.server.url>
@@ -110,10 +108,14 @@
 	</profiles>
 
 	<dependencies>
+		<!--SpringBoot-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		
+		<!--Kafka-->
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-streams</artifactId>
@@ -123,21 +125,9 @@
 			<artifactId>spring-kafka</artifactId>
 			<version>2.6.3</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-log4j2</artifactId>-->
-			<!--<version>2.1.1.RELEASE</version>-->
-		<!--</dependency>-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.h2database</groupId>-->
-			<!--<artifactId>h2</artifactId>-->
-			<!--<scope>runtime</scope>-->
-		<!--</dependency>-->
 
+
+		<!--json parser-->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -149,31 +139,28 @@
 			<version>2.8.5</version>
 		</dependency>
 
+
 		<!--mongo+fluentd logs-->
 		<dependency>
 			<groupId>org.fluentd</groupId>
 			<artifactId>fluent-logger</artifactId>
 			<version>${fluentd.logger.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.komamitsu</groupId>
 			<artifactId>fluency-core</artifactId>
 			<version>${fluency.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.komamitsu</groupId>
 			<artifactId>fluency-fluentd</artifactId>
 			<version>${fluency.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.sndyuk</groupId>
 			<artifactId>logback-more-appenders</artifactId>
@@ -195,6 +182,11 @@
 		</dependency>
 
 
+		<!--database-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 		<!--mssql-->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -205,6 +197,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+		<!--h2-->
+		<!--<dependency>-->
+		<!--<groupId>com.h2database</groupId>-->
+		<!--<artifactId>h2</artifactId>-->
+		<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
 
 
 		<!--keycloak-->
@@ -230,6 +228,7 @@
 		</dependency>
 
 
+		<!--test-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -243,6 +242,7 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
@@ -268,8 +268,6 @@
 					<generatePackage>${pom.wsdl.generatePackage}</generatePackage>
 					<schemas>
 						<schema>
-							<!--<url>http://tsxdatacoretest/TSDatacoreTest2/ws/DataCoreWS_response?wsdl</url>-->
-							<!--<url>http://atg-ca.selfip.biz/samples2/Service1.svc?wsdl</url>-->
 							<url>${wsdl.schema.url}</url>
 						</schema>
 					</schemas>
