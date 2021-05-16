@@ -95,6 +95,7 @@
 			<id>urls-pre-prod</id>
 			<properties>
 				<pom.app.server.port>22</pom.app.server.port>
+				<!--<pom.app.server.port>8080</pom.app.server.port>-->
 				<pom.kafka.server.url>10.6.79.41</pom.kafka.server.url>
 				<pom.kafka.server.port>2181</pom.kafka.server.port>
 				<pom.keycloak.server-url>http://10.6.79.41:8080/auth/</pom.keycloak.server-url>
@@ -114,7 +115,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		
+
 		<!--Kafka-->
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
@@ -188,21 +189,21 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<!--mssql-->
+		<!--<dependency>-->
+			<!--<groupId>com.microsoft.sqlserver</groupId>-->
+			<!--<artifactId>mssql-jdbc</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+		<!--</dependency>-->
+		<!--h2-->
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<!--h2-->
-		<!--<dependency>-->
-		<!--<groupId>com.h2database</groupId>-->
-		<!--<artifactId>h2</artifactId>-->
-		<!--<scope>runtime</scope>-->
-		<!--</dependency>-->
 
 
 		<!--keycloak-->

@@ -22,7 +22,9 @@ import java.io.IOException;
 //        KafkaAutoConfiguration.class
 //})
 @ComponentScan(basePackages = {
-		"biz.eurosib.lkdkp.config",
+		"biz.eurosib.lkdkp.kafka",
+		"biz.eurosib.lkdkp.keycloak",
+		"biz.eurosib.lkdkp.logger",
 		"biz.eurosib.lkdkp.controller",
 		"biz.eurosib.lkdkp.service",
 		"biz.eurosib.lkdkp.client",
