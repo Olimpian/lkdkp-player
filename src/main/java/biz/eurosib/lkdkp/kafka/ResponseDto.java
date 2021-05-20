@@ -3,52 +3,55 @@ package biz.eurosib.lkdkp.kafka;
 
 import org.json.JSONObject;
 
-public class ResponseDto extends AbstractDto {
-    private String fullResponse;
+import java.util.UUID;
 
-    private String result;
-    private String data;
+public class ResponseDto extends AbstractDto {
+    //private String fullResponse;
+
+    private int result;
+    private Object data;
+    private UUID taskGuid;
 
     public ResponseDto() {}
     public ResponseDto(String fullResponse) {
-        this.fullResponse = fullResponse;
+        //this.fullResponse = fullResponse;
         JSONObject response = new JSONObject(fullResponse);
 
-        this.result = response.getJSONObject("response").get("result").toString();
-        this.data = response.getJSONObject("response").get("data").toString();
+        if(response.isNull("response")) {
+            this.result = response.getInt("result");
+            this.data = response.get("data");
+        } else {
+            this.result = response.getJSONObject("response").getInt("result");
+            this.data = response.getJSONObject("response").getString("data");
+        }
     }
 
-    public String getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(int result) {
         this.result = result;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-    public String getFullResponse() {
-        return fullResponse;
-    }
-
-    public void setFullResponse(String fullResponse) {
-        this.fullResponse = fullResponse;
-    }
-
-//    public boolean ikOK() {
-//
-//    }
-
     public String getGuid() {
         JSONObject data = new JSONObject(this.data);
-        return data.get("GUID").toString();
+        return data.isNull("GUID") ? null : data.get("GUID").toString();
     }
 
+    public UUID getTaskGuid() {
+        return taskGuid;
+    }
+
+    public void setTaskGuid(UUID taskGuid) {
+        this.taskGuid = taskGuid;
+    }
 }

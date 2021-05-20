@@ -24,6 +24,9 @@ public class KafkaProducerConfig {
     @Value("${kafka.producer.id}")
     private String kafkaProducerId;
 
+    @Value("${kafka.queue.result}")
+    private String resultQueue;
+
     @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
@@ -59,5 +62,9 @@ public class KafkaProducerConfig {
         KafkaTemplate<Long, ResponseDto> template = new KafkaTemplate<>(producerResultFactory());
         template.setMessageConverter(new StringJsonMessageConverter());
         return template;
+    }
+
+    public String getResultQueue() {
+        return resultQueue;
     }
 }

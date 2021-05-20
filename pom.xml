@@ -29,8 +29,10 @@
 		<pom.app.server.port>8080</pom.app.server.port>
 		<pom.kafka.server.url>192.168.112.104</pom.kafka.server.url>
 		<pom.kafka.server.port>9092</pom.kafka.server.port>
+		<pom.kafka.queue.request>lkdkp.task</pom.kafka.queue.request>
+		<pom.kafka.queue.result>lkdkp.result</pom.kafka.queue.result>
 		<pom.keycloak.server-url>http://192.168.112.102:8080/auth/</pom.keycloak.server-url>
-		<pom.datasource.url>192.168.112.204</pom.datasource.url>
+		<pom.datasource.url>192.168.112.106</pom.datasource.url>
 		<pom.datasource.database-name>Cachedb</pom.datasource.database-name>
 		<pom.datasource.username>vct</pom.datasource.username>
 		<pom.datasource.password>okokok32$</pom.datasource.password>
@@ -82,8 +84,10 @@
 				<pom.app.server.port>8080</pom.app.server.port>
 				<pom.kafka.server.url>192.168.112.104</pom.kafka.server.url>
 				<pom.kafka.server.port>9092</pom.kafka.server.port>
+				<pom.kafka.queue.request>lkdkp.task</pom.kafka.queue.request>
+				<pom.kafka.queue.result>lkdkp.result</pom.kafka.queue.result>
 				<pom.keycloak.server-url>http://192.168.112.102:8080/auth/</pom.keycloak.server-url>
-				<pom.datasource.url>192.168.112.204</pom.datasource.url>
+				<pom.datasource.url>192.168.112.106</pom.datasource.url>
 				<pom.datasource.database-name>Cachedb</pom.datasource.database-name>
 				<pom.datasource.username>vct</pom.datasource.username>
 				<pom.datasource.password>okokok32$</pom.datasource.password>
@@ -98,12 +102,23 @@
 				<!--<pom.app.server.port>8080</pom.app.server.port>-->
 				<pom.kafka.server.url>10.6.79.41</pom.kafka.server.url>
 				<pom.kafka.server.port>2181</pom.kafka.server.port>
+				<pom.kafka.queue.request>lkdkp.task</pom.kafka.queue.request>
+				<pom.kafka.queue.result>lkdkp.result</pom.kafka.queue.result>
 				<pom.keycloak.server-url>http://10.6.79.41:8080/auth/</pom.keycloak.server-url>
 				<pom.datasource.url>10.6.79.42</pom.datasource.url>
 				<pom.datasource.database-name>CacheDB</pom.datasource.database-name>
 				<pom.datasource.username>swgroup</pom.datasource.username>
 				<pom.datasource.password>swgroup123</pom.datasource.password>
 				<pom.synchman.uri>http://localhost:8082/cached?request=</pom.synchman.uri>
+			</properties>
+		</profile>
+
+		<!--local-start-->
+		<profile>
+			<id>local-start</id>
+			<properties>
+				<pom.kafka.queue.request>lkdkp.task-dev</pom.kafka.queue.request>
+				<pom.kafka.queue.result>lkdkp.result-dev</pom.kafka.queue.result>
 			</properties>
 		</profile>
 	</profiles>
@@ -189,21 +204,21 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<!--mssql-->
-		<!--<dependency>-->
-			<!--<groupId>com.microsoft.sqlserver</groupId>-->
-			<!--<artifactId>mssql-jdbc</artifactId>-->
-			<!--<scope>runtime</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
-		<!--</dependency>-->
-		<!--h2-->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<!--h2-->
+		<!--<dependency>-->
+			<!--<groupId>com.h2database</groupId>-->
+			<!--<artifactId>h2</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
 
 
 		<!--keycloak-->

@@ -25,7 +25,8 @@ public class Player {
     private final WfcClient wfcClient;
     private final CacheAnswerRepository repository;
     private final UserManager userManager;
-    private final KafkaConsumerConfig config;
+    private final KafkaConsumerConfig consumerConfig;
+    private final KafkaProducerConfig producerConfig;
     private final FluentdLogger log;
 
 
@@ -34,13 +35,15 @@ public class Player {
                   WfcClient wfcClient,
                   CacheAnswerRepository repository,
                   UserManager userManager,
-                  KafkaConsumerConfig config,
+                  KafkaConsumerConfig consumerConfig,
+                  KafkaProducerConfig producerConfig,
                   FluentdLogger log) {
         this.kafkaTemplate = kafkaTemplate;
         this.wfcClient = wfcClient;
         this.repository = repository;
         this.userManager = userManager;
-        this.config = config;
+        this.consumerConfig = consumerConfig;
+        this.producerConfig = producerConfig;
         this.log = log;
 
 
@@ -48,18 +51,13 @@ public class Player {
     }
 
     @KafkaListener(id = "Request",
-            topics = {"lkdkp.request.low",
-                "lkdkp.request.middle",
-                "lkdkp.request.high",
-                "lkdkp.request.critical",
-                "lkdkp.request.own1",
-            },
+            topics = {"#{@kafkaConsumerConfig.getRequestQueue()}"},
             containerFactory = "singleFactory")
     public void consume(RequestDto dto) {
         JSONObject requestJson = new JSONObject(dto.getData());
 
         log.info("=> consumed {}", requestJson.get("request").toString());
-        ResponseDto result = new ResponseDto();
+        ResponseDto result;
 
 
         if(requestJson.get("request").toString().equals("createUser")) {
@@ -67,25 +65,22 @@ public class Player {
             Gson gson = new Gson();
             UserDto user = gson.fromJson(requestJson.get("data").toString().toLowerCase(), UserDto.class);
             userManager.createUser(user, result.getGuid());
-            kafkaTemplate.send("lkdkp.user", result);
+            //kafkaTemplate.send("lkdkp.user", result);
         }
 
         if (isCached(requestJson.get("request").toString())) {
             log.info("Request \"" + requestJson.get("request").toString() + "\" get from cache db");
             List<CacheAnswer> answer = repository.findByRequest(requestJson.get("request").toString());
-            result.setResult(answer.get(0).getData());
+            result = new ResponseDto(answer.get(0).getData());
         } else {
             log.info("Request \"" + requestJson.get("request").toString() + "\" get from wsdl");
             result = wfcClient.convert(dto);
         }
 
         log.info("<= sending {}", result.getResult() + ", " + result.getData());
-        kafkaTemplate.send("lkdkp.result", result);
-    }
-
-    //@KafkaListener(id = "Result", topics = {"lkdkp.result"}, containerFactory = "singleFactory")
-    public void answer(ResponseDto dto) {
-        log.info("get from queue Result");
+        result.setTaskGuid(dto.getTaskGuid());
+        result.setData(result.getData().toString());
+        kafkaTemplate.send(producerConfig.getResultQueue(), result);
     }
 
     //@Scheduled(initialDelay = 2000, fixedDelay = 2000)
@@ -97,7 +92,7 @@ public class Player {
     }
 
     private boolean isCached(String requestName) {
-        String uri = config.getSynchManagerUri() + requestName;
+        String uri = consumerConfig.getSynchManagerUri() + requestName;
         RestTemplate synchManager = new RestTemplate();
         try {
             Boolean isCached = synchManager.getForObject(uri, Boolean.class);

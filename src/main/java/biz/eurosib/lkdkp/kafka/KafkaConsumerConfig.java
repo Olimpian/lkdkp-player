@@ -28,6 +28,9 @@ public class KafkaConsumerConfig {
     @Value("${kafka.group.id}")
     private String kafkaGroupId;
 
+    @Value("${kafka.queue.request}")
+    private String requestQueue;
+
     @Value("${synch-manager.uri}")
     private String synchManagerUri;
 
@@ -81,5 +84,9 @@ public class KafkaConsumerConfig {
 
     public String getSynchManagerUri() {
         return synchManagerUri;
+    }
+
+    public String getRequestQueue() {
+        return requestQueue;
     }
 }
