@@ -64,7 +64,9 @@ public class Player {
             result = wfcClient.convert(dto);
             Gson gson = new Gson();
             UserDto user = gson.fromJson(requestJson.get("data").toString().toLowerCase(), UserDto.class);
-            userManager.createUser(user, result.getGuid());
+            //userManager.createUser(user, result.getGuid());
+            //userManager.getAccessTokenExample();
+            userManager.createUser(user, result.getData().toString());
             //kafkaTemplate.send("lkdkp.user", result);
         }
 

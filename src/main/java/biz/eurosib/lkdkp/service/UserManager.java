@@ -15,9 +15,11 @@ import java.util.*;
 @Service
 public class UserManager {
     private Keycloak keycloak;
+    private String realm;
 
     @Autowired
     public UserManager (KeyCloakConfig config) {
+        this.realm = config.getRealm();
         this.keycloak = KeycloakBuilder.builder()
                 .serverUrl(config.getServerUrl())
                 .realm(config.getRealm())
@@ -43,7 +45,7 @@ public class UserManager {
         user.setEmail("tom+tester1@tdlabs.local");
         user.setAttributes(Collections.singletonMap("origin", Arrays.asList("demo")));
 
-        var realmResource = keycloak.realm("");
+        var realmResource = keycloak.realm(realm);
         var userResource = realmResource.users();
 
         var response = userResource.create(user);
@@ -67,7 +69,7 @@ public class UserManager {
         attributes.put("ogrn", Arrays.asList(userDto.getOgrn()));
         user.setAttributes(attributes);
 
-        var realmResource = keycloak.realm("");
+        var realmResource = keycloak.realm(realm);
         var userResource = realmResource.users();
 
         var response = userResource.create(user);

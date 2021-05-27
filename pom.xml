@@ -32,6 +32,10 @@
 		<pom.kafka.queue.request>lkdkp.task</pom.kafka.queue.request>
 		<pom.kafka.queue.result>lkdkp.result</pom.kafka.queue.result>
 		<pom.keycloak.server-url>http://192.168.112.102:8080/auth/</pom.keycloak.server-url>
+		<pom.keycloak.username>admin2</pom.keycloak.username>
+		<pom.keycloak.password>okokok32$</pom.keycloak.password>
+		<pom.keycloak.realm.name>MyRealm</pom.keycloak.realm.name>
+		<pom.keycloak.realm.secretKey>f4c1ab9e-f5e1-44a7-8211-93be618c9041</pom.keycloak.realm.secretKey>
 		<pom.datasource.url>192.168.112.106</pom.datasource.url>
 		<pom.datasource.database-name>Cachedb</pom.datasource.database-name>
 		<pom.datasource.username>vct</pom.datasource.username>
@@ -87,6 +91,8 @@
 				<pom.kafka.queue.request>lkdkp.task</pom.kafka.queue.request>
 				<pom.kafka.queue.result>lkdkp.result</pom.kafka.queue.result>
 				<pom.keycloak.server-url>http://192.168.112.102:8080/auth/</pom.keycloak.server-url>
+				<pom.keycloak.realm.name>master</pom.keycloak.realm.name>
+				<pom.keycloak.realm.secretKey>3d2d325a-b01a-4977-a304-7c2ac85a12e1</pom.keycloak.realm.secretKey>
 				<pom.datasource.url>192.168.112.106</pom.datasource.url>
 				<pom.datasource.database-name>Cachedb</pom.datasource.database-name>
 				<pom.datasource.username>vct</pom.datasource.username>
@@ -119,6 +125,13 @@
 			<properties>
 				<pom.kafka.queue.request>lkdkp.task-dev</pom.kafka.queue.request>
 				<pom.kafka.queue.result>lkdkp.result-dev</pom.kafka.queue.result>
+
+				<!--<pom.keycloak.username>killy</pom.keycloak.username>-->
+
+				<!--<pom.keycloak.realm.name>realm-dev</pom.keycloak.realm.name>-->
+				<!--<pom.keycloak.realm.secretKey>f4c1ab9e-f5e1-44a7-8211-93be618c9041</pom.keycloak.realm.secretKey>-->
+				<pom.keycloak.realm.name>master</pom.keycloak.realm.name>
+				<pom.keycloak.realm.secretKey>3d2d325a-b01a-4977-a304-7c2ac85a12e1</pom.keycloak.realm.secretKey>
 			</properties>
 		</profile>
 	</profiles>
